@@ -2,6 +2,8 @@ package com.example.craigpauga.reality;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -12,12 +14,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+    private FirebaseAuth mFirebaseAuth;
 
     @InjectView(R.id.input_email) EditText _emailText;
     @InjectView(R.id.input_password) EditText _passwordText;
@@ -29,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -53,32 +62,48 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "Login");
 
         if (!validate()) {
-            onLoginFailed();
+            onValidateFailed();
             return;
         }
 
-        _loginButton.setEnabled(false);
+            _loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
+            final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
+                    R.style.AppTheme_Dark_Dialog);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Authenticating...");
+            progressDialog.show();
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+            String email = _emailText.getText().toString();
+            String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own authentication logic here.
+            // TODO: Implement your own authentication logic here.
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            String email = _emailText.getText().toString();
+                            String password = _passwordText.getText().toString();
+                                email.trim();
+                                password.trim();
+                            // On complete call either onLoginSuccess or onLoginFailed
+                            mFirebaseAuth.signInWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        onLoginSuccess();
+                                    } else {
+                                        onLoginFailed();
+                                    }
+                                }
+                            });
+
+
+                            progressDialog.dismiss();
+                        }
+                    }, 3000);
+
     }
 
 
@@ -105,12 +130,23 @@ public class LoginActivity extends AppCompatActivity {
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
         //finish();
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setMessage("Please try again").setTitle("Error").setPositiveButton(android.R.string.ok,null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        _loginButton.setEnabled(true);
+    }
 
+    public void onValidateFailed(){
+        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
         _loginButton.setEnabled(true);
     }
 
