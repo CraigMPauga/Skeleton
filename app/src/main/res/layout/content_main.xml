@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.craigpauga.reality.MainActivity"
+    tools:showIn="@layout/app_bar_main">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@android:dimen/app_icon_size"
+        android:id="@+id/optionsButtonsLayout">
+
+        <Button
+            android:text="Near Me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nearMeButton"
+            android:layout_weight="1"
+            android:layout_marginRight="-4dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/background_light"
+            tools:textColor="@android:color/white"
+            />
+
+        <Button
+            android:text="Prospects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/prospectsButton"
+            android:layout_weight="1"
+            android:layout_marginLeft="-4dp"
+            android:layout_marginRight="-4dp"
+            android:background="@color/colorPrimary"
+            tools:textColor="@android:color/background_light"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:text="Watchlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/watchlistButton"
+            android:layout_weight="1"
+            android:layout_marginLeft="-4dp"
+            android:background="@color/colorPrimary"
+            tools:textColor="@android:color/background_light"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/optionsButtonsLayout"
+        android:id="@+id/mainList">
+
+    <ViewFlipper
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewflipper">
+
+            <TextView
+                android:text="Properties Near Me"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/nearMeView"
+                />
+
+            <TextView
+                android:text="High Prospective Properties"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/prospectsView" />
+
+            <TextView
+                android:text="Properties on your watchlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/watchlistView" />
+    </ViewFlipper>
+    </RelativeLayout>
+
+</RelativeLayout>
