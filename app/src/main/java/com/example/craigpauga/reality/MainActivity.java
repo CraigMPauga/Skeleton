@@ -1,18 +1,25 @@
 package com.example.craigpauga.reality;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.BoolRes;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.animation.Animator;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -25,9 +32,16 @@ import android.view.Menu;
 import android.app.Activity;
 import android.view.MenuItem;
 
+import com.example.craigpauga.reality.Adapters.ListViewAdapter;
+import com.example.craigpauga.reality.Adapters.ProspectsListViewAdapter;
+import com.example.craigpauga.reality.Adapters.WatchlistListViewAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,7 +50,10 @@ public class MainActivity extends AppCompatActivity
     private float currentX;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private DatabaseReference mDatabase;
+    private String mUserId;
     Button nearMe, prospects, watchlist;
+
 
 
     @Override
@@ -45,6 +62,21 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ListView nearMelist = (ListView) findViewById(R.id.nearMeView);
+        ListView prospectList = (ListView) findViewById(R.id.prospectsView);
+        ListView watchlistList = (ListView) findViewById(R.id.watchlistView);
+        ListViewAdapter nearMeAdapter = new ListViewAdapter((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE));
+        ProspectsListViewAdapter prospectAdapter = new ProspectsListViewAdapter((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE));
+        WatchlistListViewAdapter watchListAdapter = new WatchlistListViewAdapter((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE));
+        nearMelist.setAdapter(nearMeAdapter);
+        prospectList.setAdapter(prospectAdapter);
+        watchlistList.setAdapter(watchListAdapter);
+
+        //Initialize Auth & Database
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -201,12 +233,17 @@ public class MainActivity extends AppCompatActivity
 
         });
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
 
         if (mFirebaseUser==null){
             //loadLogInView();
         }
+
+        //LinearLayout nearMeLayout = (LinearLayout) findViewById(nearMeLinearView);
+        //TextView property = new TextView(this);
+        //property.setText("Added tv");
+        //nearMeLayout.addView(property);
+
     }
 
 
@@ -277,7 +314,9 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-            return true;
+            mFirebaseAuth.signOut();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            //return true;
         }
 
         return super.onOptionsItemSelected(item);

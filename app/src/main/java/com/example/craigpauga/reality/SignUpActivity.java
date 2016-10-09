@@ -1,7 +1,9 @@
 package com.example.craigpauga.reality;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.craigpauga.reality.Utilities.Constants;
+import com.example.craigpauga.reality.Utilities.User;
+import com.google.android.gms.actions.SearchIntents;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -22,12 +35,21 @@ public class SignUpActivity extends AppCompatActivity {
     @InjectView(R.id.input_password) EditText _passwordText;
     @InjectView(R.id.btn_signup) Button _signupButton;
     @InjectView(R.id.link_login) TextView _loginLink;
+    private FirebaseAuth mfirebaseAuth;
+    private FirebaseUser mfirebaseUser;
+    private DatabaseReference mDatabase;
+    private String mUserID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.inject(this);
+        mfirebaseAuth = FirebaseAuth.getInstance();
+        mfirebaseUser = mfirebaseAuth.getCurrentUser();
+        mUserID = mfirebaseUser.getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +85,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        final String password = _passwordText.getText().toString();
 
         // TODO: Implement your own signup logic here.
 
@@ -72,22 +94,47 @@ public class SignUpActivity extends AppCompatActivity {
                     public void run() {
                         // On complete call either onSignupSuccess or onSignupFailed
                         // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
+
+                        String name = _nameText.getText().toString();
+                        String email = _emailText.getText().toString();
+                        final String password = _passwordText.getText().toString();
+
+                        mfirebaseAuth.createUserWithEmailAndPassword(email,password)
+                                .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()){
+                                            onSignupSuccess();
+                                        }
+                                        else{
+                                            onSignupFailed();
+                                            progressDialog.dismiss();
+                                        }
+                                    }
+                                });
+
+
                     }
                 }, 3000);
     }
 
-
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
+        User user = new User();
+        user.setName(_nameText.getText().toString());
+        user.setEmail(_emailText.getText().toString());
+        user.setPassword(_passwordText.getText().toString());
+        mDatabase.child("User").child(mUserID).setValue(user);
+
         setResult(RESULT_OK, null);
-        finish();
+        Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Sign Up Failed", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }

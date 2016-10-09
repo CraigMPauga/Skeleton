@@ -68,24 +68,26 @@
         android:layout_height="match_parent"
         android:id="@+id/viewflipper">
 
-            <TextView
-                android:text="Properties Near Me"
+            <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/nearMeView"
-                />
+                android:id="@+id/nearMeView">
+            </ListView>
 
-            <TextView
-                android:text="High Prospective Properties"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/prospectsView" />
 
-            <TextView
-                android:text="Properties on your watchlist"
+            <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/watchlistView" />
+                android:id="@+id/prospectsView" >
+            </ListView>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/watchlistView" >
+
+            </ListView>
+
     </ViewFlipper>
     </RelativeLayout>
 
