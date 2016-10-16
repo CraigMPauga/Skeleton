@@ -8,6 +8,8 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private String pin;
+    private int trigger;
 
     public void setName(String name){
         this.name = name;
@@ -21,6 +23,8 @@ public class User {
         this.password = password;
     }
 
+    public void setPin(String pin){this.pin = pin; }
+
     public String getName(){
         return this.name;
     }
@@ -32,4 +36,13 @@ public class User {
     public String getPassword(){
         return this.password;
     }
+
+    public String getPin() { return this.pin; }
+
+    public int getTrigger() { return this.trigger; }
+
+    public void setTrigger(int pinTrigger){this.trigger = trigger; }
+
+
+
 }

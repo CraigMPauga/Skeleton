@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
-        mFirebaseAuth = FirebaseAuth.getInstance();
+
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -53,7 +53,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Start the Signup activity
                 Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
+               startActivityForResult(intent, REQUEST_SIGNUP);
+               // startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
             }
         });
     }
@@ -87,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                                 email.trim();
                                 password.trim();
                             // On complete call either onLoginSuccess or onLoginFailed
+                            mFirebaseAuth = FirebaseAuth.getInstance();
                             mFirebaseAuth.signInWithEmailAndPassword(email, password)
                                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override

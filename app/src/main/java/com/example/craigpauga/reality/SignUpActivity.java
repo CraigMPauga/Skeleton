@@ -45,9 +45,8 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.inject(this);
-        mfirebaseAuth = FirebaseAuth.getInstance();
-        mfirebaseUser = mfirebaseAuth.getCurrentUser();
-        mUserID = mfirebaseUser.getUid();
+
+        //mfirebaseUser = mfirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
@@ -98,6 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
                         String name = _nameText.getText().toString();
                         String email = _emailText.getText().toString();
                         final String password = _passwordText.getText().toString();
+                        mfirebaseAuth = FirebaseAuth.getInstance();
 
                         mfirebaseAuth.createUserWithEmailAndPassword(email,password)
                                 .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
@@ -120,14 +120,18 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
+        mfirebaseUser = mfirebaseAuth.getCurrentUser();
+        mUserID=mfirebaseUser.getUid();
         User user = new User();
         user.setName(_nameText.getText().toString());
         user.setEmail(_emailText.getText().toString());
         user.setPassword(_passwordText.getText().toString());
+        user.setPin("null");
+        user.setTrigger(1);
         mDatabase.child("User").child(mUserID).setValue(user);
 
         setResult(RESULT_OK, null);
-        Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
+        Intent intent = new Intent(SignUpActivity.this,SetPinLockActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
