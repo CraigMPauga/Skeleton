@@ -1,7 +1,9 @@
 package com.example.craigpauga.reality;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import android.support.v4.app.FragmentActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 
 public class PinLockActivity extends AppCompatActivity {
@@ -33,6 +36,7 @@ public class PinLockActivity extends AppCompatActivity {
     public DataSnapshot dataSnapshot;
     public DatabaseReference userRef;
     public DatabaseReference pinRef;
+    public TextView forgotPin;
 
 
 
@@ -52,6 +56,32 @@ public class PinLockActivity extends AppCompatActivity {
         mUserId = mFirebaseUser.getUid();
         userRef = mDatabase.child("User");
         pinRef = mDatabase.child("User").child(mUserId).child("pin");
+
+        TextView forgotPin = (TextView) findViewById(R.id.forgotPin);
+
+        forgotPin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getCurrentFocus().getContext())
+                        .setTitle("Reality")
+                        .setMessage("Log out to reset pin")
+                        .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mFirebaseAuth.signOut();
+                                startActivity(new Intent(PinLockActivity.this, LoginActivity.class));
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
+            }
+        });
+
 
     }
 

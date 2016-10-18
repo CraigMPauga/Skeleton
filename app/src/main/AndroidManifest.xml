@@ -17,25 +17,23 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.Dark"></activity>
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".SignUpActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".PinLockActivity">
-
-        </activity>
+        <activity android:name=".PinLockActivity"></activity>
         <activity android:name=".LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".SetPinLockActivity"></activity>
+        <activity android:name=".SetPinLockActivity" />
+        <activity android:name=".forgotPasswordActivity"></activity>
     </application>
 
 </manifest>

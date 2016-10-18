@@ -39,4 +39,17 @@
             app:dotFilledBackground="@drawable/filled_dot"
             />
 
+        <TextView
+            android:text="Forgot Pin?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/forgotPin"
+            android:layout_below="@+id/pin_lock_view"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:textSize="15dp"
+            android:fontFamily="serif"
+            android:layout_marginTop="25dp"
+            />
+
 </RelativeLayout>
