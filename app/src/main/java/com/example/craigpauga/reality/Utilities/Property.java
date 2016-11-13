@@ -5,15 +5,14 @@ package com.example.craigpauga.reality.Utilities;
  */
 
 public class Property {
-    private String name;
+    private String propertyName;
+    private String propertyPic;
     private int amountFunded;
 
-    public void setName(String name){
-        this.name = name;
-    }
-
-    public void setAmountFunded(int amountFunded){
+    public Property(String propertyName, String propertyPic, int amountFunded){
+        this.propertyName = propertyName;
         this.amountFunded = amountFunded;
+        this.propertyPic = propertyPic;
     }
 
 }

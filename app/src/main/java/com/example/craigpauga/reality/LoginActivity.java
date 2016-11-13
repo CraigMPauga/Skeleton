@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -56,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                startActivityForResult(intent, REQUEST_SIGNUP);
                // startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+                overridePendingTransition(R.anim.slide_in_from_right_fast,R.anim.slide_out_from_left_fast);
             }
         });
 
@@ -64,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), forgotPasswordActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
+                overridePendingTransition(R.anim.slide_in_from_right_fast,R.anim.slide_out_from_left_fast);
             }
         });
     }
@@ -127,6 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                 // By default we just finish the Activity and log them in automatically
                 //this.finish();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
 
             }
         }

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary"
-    tools:context="com.example.craigpauga.reality.PinLockActivity">
+    tools:context="com.example.craigpauga.reality.PinLockActivity"
+    android:fitsSystemWindows="true">
 
 
         <com.andrognito.pinlockview.PinLockView

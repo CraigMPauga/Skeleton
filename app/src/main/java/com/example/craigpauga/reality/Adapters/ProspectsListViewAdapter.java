@@ -12,7 +12,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.craigpauga.reality.R;
+import com.example.craigpauga.reality.Utilities.Property;
+import com.example.craigpauga.reality.Utilities.propertyInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -20,18 +31,23 @@ import butterknife.InjectView;
 public class ProspectsListViewAdapter extends BaseAdapter {
 
     LayoutInflater inflater;
+    ArrayList propertyList;
 
     public ProspectsListViewAdapter(LayoutInflater inflater){
+         propertyList = propertyInfo.getPropertyInfo();
+
         this.inflater = inflater;
     }
 
     @Override
     public int getCount() {
-        return 5;
+
+        return 2;
     }
 
     @Override
     public Object getItem(int position) {
+
         return null;
     }
 

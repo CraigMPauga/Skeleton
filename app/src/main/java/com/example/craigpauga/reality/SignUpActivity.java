@@ -29,6 +29,7 @@ import butterknife.InjectView;
 public class SignUpActivity extends AppCompatActivity {
 
     private static final String TAG = "SignupActivity";
+    private static final int REQUEST_SIGNUP = 0;
 
     @InjectView(R.id.input_name) EditText _nameText;
     @InjectView(R.id.input_email) EditText _emailText;
@@ -61,7 +62,9 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
-                finish();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivityForResult(intent, REQUEST_SIGNUP);
+                overridePendingTransition(R.anim.slide_in_from_left_fast,R.anim.slide_out_from_right_fast);
             }
         });
     }
@@ -135,6 +138,7 @@ public class SignUpActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_from_right_fast,R.anim.slide_out_from_left_fast);
     }
 
     public void onSignupFailed() {

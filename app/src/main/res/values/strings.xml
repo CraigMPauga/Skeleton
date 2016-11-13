@@ -26,4 +26,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
+    <string name="hello">Hello World, MainActivity!</string>
+    <string name="appname">DynamicFragments</string>
+    <string name="str_btn_load">Load Fragment</string>
+    <string name="str_tv_fragment">This is a fragment</string>
+
 </resources>

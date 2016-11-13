@@ -36,8 +36,10 @@ public class LauncherActivity extends AppCompatActivity {
 //        Query userIDQuery = mDatabase.equalTo("email",emailVerification);
 
         if (mFirebaseUser==null){
-            startActivity(new Intent(LauncherActivity.this, LoginActivity.class));
+            //startActivity(new Intent(LauncherActivity.this, LoginActivity.class));
+            startActivity(new Intent(LauncherActivity.this, gettingStarted.class));
         }else{
+            //startActivity(new Intent(LauncherActivity.this, PinLockActivity.class));
             startActivity(new Intent(LauncherActivity.this, PinLockActivity.class));
         }
 
