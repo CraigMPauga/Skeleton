@@ -14,10 +14,12 @@ import android.widget.TextView;
 import com.example.craigpauga.reality.R;
 import com.example.craigpauga.reality.Utilities.Property;
 import com.example.craigpauga.reality.Utilities.propertyInfo;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -31,10 +33,16 @@ import butterknife.InjectView;
 public class ProspectsListViewAdapter extends BaseAdapter {
 
     LayoutInflater inflater;
-    ArrayList propertyList;
+    ArrayList<String> propertyNameList = new ArrayList<>();
+    public DatabaseReference mPropInfo;
+    public DatabaseReference mDatabase;
+    public String key;
+    public String current_value;
+    private String propertyName;
+    private String propertyPic;
+    private String amountFunded;
 
     public ProspectsListViewAdapter(LayoutInflater inflater){
-         propertyList = propertyInfo.getPropertyInfo();
 
         this.inflater = inflater;
     }
@@ -79,6 +87,7 @@ public class ProspectsListViewAdapter extends BaseAdapter {
         TextView text;
 
         public ViewHolder(View view){
+
             ButterKnife.inject(this, view);
         }
     }

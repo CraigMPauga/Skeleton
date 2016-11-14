@@ -93,8 +93,9 @@ public class PinLockActivity extends AppCompatActivity {
             pinRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    String pinFromDB = dataSnapshot.getValue(String.class);
 
+                    String pinFromDB = dataSnapshot.getValue(String.class);
+                    Log.d("NOTICE:", "Pin complete: " + pinFromDB);
                     if(pinFromDB.equals(pin)){
                         startActivity(new Intent(PinLockActivity.this, MainActivity.class));
                     }

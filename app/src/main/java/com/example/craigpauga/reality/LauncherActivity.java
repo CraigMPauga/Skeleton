@@ -2,46 +2,109 @@ package com.example.craigpauga.reality;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.andrognito.pinlockview.PinLockView;
+import com.example.craigpauga.reality.Utilities.Property;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class LauncherActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
-
-
+    private DatabaseReference mDataProp;
+    final static ArrayList<Property> propertyList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        if (mFirebaseAuth!=null) {
-            //mFirebaseAuth.signOut();
-        }
-        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        //mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        //mDatabase = FirebaseDatabase.getInstance().getReference();
-        //String mUserID = mFirebaseUser.getUid();
 
-        //DatabaseReference PinRef= mDatabase.child("User").child(mUserID).child("Pin");
-//        Query userIDQuery = mDatabase.equalTo("email",emailVerification);
 
-        if (mFirebaseUser==null){
-            //startActivity(new Intent(LauncherActivity.this, LoginActivity.class));
-            startActivity(new Intent(LauncherActivity.this, gettingStarted.class));
-        }else{
-            //startActivity(new Intent(LauncherActivity.this, PinLockActivity.class));
-            startActivity(new Intent(LauncherActivity.this, PinLockActivity.class));
-        }
+        ArrayList<Property> propNames = pullPropInfo();
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                startApp();
+            }
+        },3000);
+
+
+
+
 
     }
+
+
+    public ArrayList<Property> pullPropInfo(){
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        mDataProp = FirebaseDatabase.getInstance().getReference().child("Properties");
+        mDataProp.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot child : dataSnapshot.getChildren()){
+                    Log.d("HELLO","HELLO");
+                    Property property = new Property();
+
+                    for(DataSnapshot child2 : child.getChildren()){
+                        Log.d("Children","Children");
+                        if(child2.getKey().equals("PropertyName")) {
+                            String propertyName = child2.getValue().toString();
+                            Log.d("PropertyName", propertyName);
+                            property.setPropertyName(propertyName);
+
+                        }
+                        else if(child2.getKey().equals("PropertyPic")){
+                            String propertyPic = child2.getValue().toString();
+                            property.setPropertyPic(propertyPic);
+                        }
+                        else if(child2.getKey().equals("AmountFunded")){
+                            int amountFunded = Integer.parseInt(child2.getValue().toString());
+                            property.setAmountFunded(amountFunded);
+                        }
+                        //propertyNames.add(propertyName);
+
+
+                    }
+                    propertyList.add(property);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return propertyList;
+    }
+
+    public void startApp(){
+        if (mFirebaseUser==null){
+            int length = propertyList.size();
+            Log.d("Length",Integer.toString(length));
+            startActivity(new Intent(LauncherActivity.this, gettingStarted.class));
+        }else{
+            int length = propertyList.size();
+            ArrayList<Property> propertyNames2 = propertyList;
+            Log.d("Length",Integer.toString(length));
+            Intent intent = new Intent(getBaseContext(), PinLockActivity.class);
+            intent.putExtra("PropertyNames", propertyList);
+            startActivity(intent);
+        }
+    }
 }
+

@@ -35,10 +35,18 @@ import android.view.MenuItem;
 import com.example.craigpauga.reality.Adapters.ListViewAdapter;
 import com.example.craigpauga.reality.Adapters.ProspectsListViewAdapter;
 import com.example.craigpauga.reality.Adapters.WatchlistListViewAdapter;
+import com.example.craigpauga.reality.Utilities.Property;
+import com.example.craigpauga.reality.m_Helper.FirebaseHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -51,9 +59,12 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
+    private DatabaseReference mDataProp;
+    FirebaseHelper helper;
+    final static ArrayList<String> propertyNames = new ArrayList<>();
+    public DatabaseReference mPropInfo;
     private String mUserId;
     Button nearMe, prospects, watchlist;
-
 
 
     @Override
@@ -63,6 +74,45 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+
+        }
+
+        //Setup Database
+        //Initialize Auth & Database
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDataProp = FirebaseDatabase.getInstance().getReference().child("Properties");
+        helper = new FirebaseHelper(mDatabase);
+        //propertyNameList = helper.retreiveProperty();
+        //int length = propertyNameList.size();
+
+        mDataProp.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot child : dataSnapshot.getChildren()){
+                   Log.d("HELLO","HELLO");
+
+                    for(DataSnapshot child2 : child.getChildren()){
+                        Log.d("Children","Children");
+                        String propertyName = child2.getValue().toString();
+                        Log.d("PropertyName", propertyName);
+                        propertyNames.add(propertyName);
+                        loadProps(propertyNames);
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        int length = propertyNames.size();
         ListView nearMelist = (ListView) findViewById(R.id.nearMeView);
         ListView prospectList = (ListView) findViewById(R.id.prospectsView);
         ListView watchlistList = (ListView) findViewById(R.id.watchlistView);
@@ -73,10 +123,7 @@ public class MainActivity extends AppCompatActivity
         prospectList.setAdapter(prospectAdapter);
         watchlistList.setAdapter(watchListAdapter);
 
-        //Initialize Auth & Database
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -106,51 +153,52 @@ public class MainActivity extends AppCompatActivity
 
 
 ///Not currently being implemented. Can be at a later date. Do not want to waste time.
-       viewFlipper.setOnTouchListener(new View.OnTouchListener() {
-           @Override
-           public boolean onTouch(View view, MotionEvent motionEvent) {
-               // viewFlipperContext = viewFlipper.getContext();
-               Animation slideInFromRight = AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_in_from_right);
-               Animation slideOuttoLeft = AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_out_from_left);
-               Animation slideInFromLeft = AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_in_from_left);
-               Animation slideOuttoRight = AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_out_from_right);
+        viewFlipper.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                // viewFlipperContext = viewFlipper.getContext();
+                Animation slideInFromRight = AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_in_from_right);
+                Animation slideOuttoLeft = AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_out_from_left);
+                Animation slideInFromLeft = AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_in_from_left);
+                Animation slideOuttoRight = AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_out_from_right);
 
-                       if(motionEvent.getActionMasked()==0) {
+                if (motionEvent.getActionMasked() == 0) {
 
-                           lastX = motionEvent.getX();
-                           Log.i("Value: ", Float.toString(lastX));
-                       }
-                       if (motionEvent.getActionMasked()==1) {
-                           currentX = motionEvent.getX();
-                           Log.i("Value: ", Float.toString(currentX));
+                    lastX = motionEvent.getX();
+                    Log.i("Value: ", Float.toString(lastX));
+                }
+                if (motionEvent.getActionMasked() == 1) {
+                    currentX = motionEvent.getX();
+                    Log.i("Value: ", Float.toString(currentX));
 
-                       if (lastX < currentX) {
+                    if (lastX < currentX) {
 
-                           viewFlipper.setInAnimation(slideInFromLeft);
-                           viewFlipper.setOutAnimation(slideOuttoRight);
-                           viewFlipper.showNext();
-                       }
+                        viewFlipper.setInAnimation(slideInFromLeft);
+                        viewFlipper.setOutAnimation(slideOuttoRight);
+                        viewFlipper.showNext();
+                    }
 
-                       if (lastX > currentX) {
-                           viewFlipper.setInAnimation(slideInFromRight);
-                           viewFlipper.setOutAnimation(slideOuttoLeft);
-                           viewFlipper.showPrevious();
-                       }}
+                    if (lastX > currentX) {
+                        viewFlipper.setInAnimation(slideInFromRight);
+                        viewFlipper.setOutAnimation(slideOuttoLeft);
+                        viewFlipper.showPrevious();
+                    }
+                }
 
-                    return false;
-               }
+                return false;
+            }
 
 
-            });
+        });
 
-        nearMe.setOnClickListener(new View.OnClickListener(){
+        nearMe.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View view){
+            public void onClick(View view) {
                 Context nearMeViewContextcontext = nearMeView.getContext();
                 Context prospectsViewContext = prospectsView.getContext();
                 Context watchlistViewContext = watchlistView.getContext();
 
-                if (viewFlipper.getDisplayedChild()==1) {
+                if (viewFlipper.getDisplayedChild() == 1) {
                     Animation mSlideOutLeftProspects = AnimationUtils.loadAnimation(prospectsViewContext, R.anim.slide_out_from_left);
                     Animation mSlideInRightNearMe = AnimationUtils.loadAnimation(nearMeViewContextcontext, R.anim.slide_in_from_right);
 
@@ -159,8 +207,7 @@ public class MainActivity extends AppCompatActivity
 
                     viewFlipper.setDisplayedChild(0);
 
-                }
-                else if (viewFlipper.getDisplayedChild()==2){
+                } else if (viewFlipper.getDisplayedChild() == 2) {
                     Animation mSlideOutLeftWatchlist = AnimationUtils.loadAnimation(watchlistViewContext, R.anim.slide_out_from_left);
                     Animation mSlideInRightNearMe = AnimationUtils.loadAnimation(nearMeViewContextcontext, R.anim.slide_in_from_right);
 
@@ -173,14 +220,14 @@ public class MainActivity extends AppCompatActivity
 
         });
 
-        prospects.setOnClickListener(new View.OnClickListener(){
+        prospects.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View view){
+            public void onClick(View view) {
                 Context nearMeViewContextcontext = nearMeView.getContext();
                 Context prospectsViewContext = prospectsView.getContext();
                 Context watchlistViewContext = watchlistView.getContext();
 
-                if (viewFlipper.getDisplayedChild()==0) {
+                if (viewFlipper.getDisplayedChild() == 0) {
                     Animation mSlideOutRightNearMe = AnimationUtils.loadAnimation(prospectsViewContext, R.anim.slide_out_from_right);
                     Animation mSlideInLeftProspects = AnimationUtils.loadAnimation(nearMeViewContextcontext, R.anim.slide_in_from_left);
 
@@ -189,8 +236,7 @@ public class MainActivity extends AppCompatActivity
 
                     viewFlipper.setDisplayedChild(1);
 
-                }
-                else if (viewFlipper.getDisplayedChild()==2){
+                } else if (viewFlipper.getDisplayedChild() == 2) {
                     Animation mSlideOutLeftWatchlist = AnimationUtils.loadAnimation(watchlistViewContext, R.anim.slide_out_from_left);
                     Animation mSlideInRightProspects = AnimationUtils.loadAnimation(nearMeViewContextcontext, R.anim.slide_in_from_right);
 
@@ -203,14 +249,14 @@ public class MainActivity extends AppCompatActivity
 
         });
 
-        watchlist.setOnClickListener(new View.OnClickListener(){
+        watchlist.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View view){
+            public void onClick(View view) {
                 Context nearMeViewContextcontext = nearMeView.getContext();
                 Context prospectsViewContext = prospectsView.getContext();
                 Context watchlistViewContext = watchlistView.getContext();
 
-                if (viewFlipper.getDisplayedChild()==0) {
+                if (viewFlipper.getDisplayedChild() == 0) {
                     Animation mSlideOutRightNearMe = AnimationUtils.loadAnimation(prospectsViewContext, R.anim.slide_out_from_right);
                     Animation mSlideInLeftWatchlist = AnimationUtils.loadAnimation(nearMeViewContextcontext, R.anim.slide_in_from_left);
 
@@ -219,8 +265,7 @@ public class MainActivity extends AppCompatActivity
 
                     viewFlipper.setDisplayedChild(2);
 
-                }
-                else if (viewFlipper.getDisplayedChild()==1){
+                } else if (viewFlipper.getDisplayedChild() == 1) {
                     Animation mSlideOutRightProspects = AnimationUtils.loadAnimation(watchlistViewContext, R.anim.slide_out_from_right);
                     Animation mSlideInLeftWatchlist = AnimationUtils.loadAnimation(nearMeViewContextcontext, R.anim.slide_in_from_left);
 
@@ -232,18 +277,6 @@ public class MainActivity extends AppCompatActivity
             }
 
         });
-
-
-
-        if (mFirebaseUser==null){
-            //loadLogInView();
-        }
-
-        //LinearLayout nearMeLayout = (LinearLayout) findViewById(nearMeLinearView);
-        //TextView property = new TextView(this);
-        //property.setText("Added tv");
-        //nearMeLayout.addView(property);
-
     }
 
 
@@ -257,10 +290,10 @@ public class MainActivity extends AppCompatActivity
         Animation slideOuttoRight = AnimationUtils.loadAnimation(viewFlipperContext, R.anim.slide_out_from_right);
 
         int action = MotionEvent.getActionMasked();
-        switch(action) {
+        switch (action) {
             case 0:
                 lastX = MotionEvent.getX();
-                Log.i("Reality","Touch");
+                Log.i("Reality", "Touch");
                 break;
             case 1:
                 float currentX = MotionEvent.getX();
@@ -352,5 +385,10 @@ public class MainActivity extends AppCompatActivity
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    private ArrayList<String> loadProps(ArrayList<String> propertyNames){
+        int length = propertyNames.size();
+        return propertyNames;
     }
 }
