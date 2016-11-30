@@ -24,23 +24,28 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".PinLockActivity"
-            android:theme="@style/AppTheme.Dark"/>
-        <activity android:name=".LauncherActivity">
+        <activity
+            android:name=".PinLockActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".LauncherActivity"
+            android:theme="@style/AppTheme.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SetPinLockActivity"
-            android:theme="@style/AppTheme.Dark"
-            />
-        <activity android:name=".forgotPasswordActivity"
-            android:theme="@style/AppTheme.Dark"
-            />
-        <activity android:name=".gettingStarted"
-            android:theme="@style/AppTheme.Dark"></activity>
+        <activity
+            android:name=".SetPinLockActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".forgotPasswordActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".gettingStarted"
+            android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".propertyDetailsActivity" />
     </application>
 
 </manifest>

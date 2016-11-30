@@ -3,6 +3,7 @@ package com.example.craigpauga.reality;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class LauncherActivity extends AppCompatActivity {
@@ -25,7 +27,11 @@ public class LauncherActivity extends AppCompatActivity {
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
     private DatabaseReference mDataProp;
-    final static ArrayList<Property> propertyList = new ArrayList<>();
+    public final static ArrayList<Property> propertyList = new ArrayList<>();
+    String propertyName;
+    String propertyPic;
+    String amountFunded;
+    String amountTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,24 +63,25 @@ public class LauncherActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()){
-                    Log.d("HELLO","HELLO");
-                    Property property = new Property();
+                    Property property = new Property(propertyName,propertyPic,amountFunded, amountTotal);
 
                     for(DataSnapshot child2 : child.getChildren()){
-                        Log.d("Children","Children");
                         if(child2.getKey().equals("PropertyName")) {
-                            String propertyName = child2.getValue().toString();
-                            Log.d("PropertyName", propertyName);
+                            propertyName = child2.getValue().toString();
                             property.setPropertyName(propertyName);
 
                         }
                         else if(child2.getKey().equals("PropertyPic")){
-                            String propertyPic = child2.getValue().toString();
+                            propertyPic = child2.getValue().toString();
                             property.setPropertyPic(propertyPic);
                         }
                         else if(child2.getKey().equals("AmountFunded")){
-                            int amountFunded = Integer.parseInt(child2.getValue().toString());
+                            amountFunded = child2.getValue().toString();
                             property.setAmountFunded(amountFunded);
+                        }
+                        else if (child2.getKey().equals("AmountTotal")){
+                            amountTotal = child2.getValue().toString();
+                            property.setAmountTotal(amountTotal);
                         }
                         //propertyNames.add(propertyName);
 
@@ -90,6 +97,7 @@ public class LauncherActivity extends AppCompatActivity {
             }
         });
         return propertyList;
+
     }
 
     public void startApp(){
@@ -99,12 +107,14 @@ public class LauncherActivity extends AppCompatActivity {
             startActivity(new Intent(LauncherActivity.this, gettingStarted.class));
         }else{
             int length = propertyList.size();
-            ArrayList<Property> propertyNames2 = propertyList;
             Log.d("Length",Integer.toString(length));
-            Intent intent = new Intent(getBaseContext(), PinLockActivity.class);
-            intent.putExtra("PropertyNames", propertyList);
+            Intent intent = new Intent(LauncherActivity.this, PinLockActivity.class);
+            intent.putParcelableArrayListExtra("Property Data", propertyList);
             startActivity(intent);
+            //startActivity(new Intent(LauncherActivity.this, PinLockActivity.class));
+
         }
     }
 }
+
 

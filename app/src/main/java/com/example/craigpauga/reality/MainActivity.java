@@ -51,6 +51,8 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.example.craigpauga.reality.LauncherActivity.propertyList;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ViewFlipper viewFlipper;
@@ -74,54 +76,26 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-
-        }
-
         //Setup Database
         //Initialize Auth & Database
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDataProp = FirebaseDatabase.getInstance().getReference().child("Properties");
-        helper = new FirebaseHelper(mDatabase);
-        //propertyNameList = helper.retreiveProperty();
-        //int length = propertyNameList.size();
 
-        mDataProp.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot child : dataSnapshot.getChildren()){
-                   Log.d("HELLO","HELLO");
-
-                    for(DataSnapshot child2 : child.getChildren()){
-                        Log.d("Children","Children");
-                        String propertyName = child2.getValue().toString();
-                        Log.d("PropertyName", propertyName);
-                        propertyNames.add(propertyName);
-                        loadProps(propertyNames);
-
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
         int length = propertyNames.size();
         ListView nearMelist = (ListView) findViewById(R.id.nearMeView);
         ListView prospectList = (ListView) findViewById(R.id.prospectsView);
         ListView watchlistList = (ListView) findViewById(R.id.watchlistView);
         ListViewAdapter nearMeAdapter = new ListViewAdapter((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE));
-        ProspectsListViewAdapter prospectAdapter = new ProspectsListViewAdapter((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE));
+
         WatchlistListViewAdapter watchListAdapter = new WatchlistListViewAdapter((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE));
+        ProspectsListViewAdapter prospectAdapter = new ProspectsListViewAdapter((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE), this);
         nearMelist.setAdapter(nearMeAdapter);
-        prospectList.setAdapter(prospectAdapter);
         watchlistList.setAdapter(watchListAdapter);
+        prospectList.setAdapter(prospectAdapter);
+
+
 
 
 
@@ -129,7 +103,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "View Your Portfolio", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -148,9 +122,8 @@ public class MainActivity extends AppCompatActivity
         prospects = (Button) findViewById(R.id.prospectsButton);
         watchlist = (Button) findViewById(R.id.watchlistButton);
         final View nearMeView = findViewById(R.id.nearMeView);
-        final View prospectsView = findViewById(R.id.prospectsView);
         final View watchlistView = findViewById(R.id.watchlistView);
-
+        final View prospectsView = findViewById(R.id.prospectsView);
 
 ///Not currently being implemented. Can be at a later date. Do not want to waste time.
         viewFlipper.setOnTouchListener(new View.OnTouchListener() {
@@ -387,8 +360,4 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    private ArrayList<String> loadProps(ArrayList<String> propertyNames){
-        int length = propertyNames.size();
-        return propertyNames;
-    }
 }

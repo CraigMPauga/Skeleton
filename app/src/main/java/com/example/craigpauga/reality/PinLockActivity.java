@@ -27,6 +27,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import static com.example.craigpauga.reality.LauncherActivity.propertyList;
+
 
 public class PinLockActivity extends AppCompatActivity {
     public FirebaseAuth mFirebaseAuth;
@@ -44,6 +46,10 @@ public class PinLockActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin_lock);
+
+        Bundle bdl = getIntent().getExtras();
+        int length = propertyList.size();
+
         PinLockView mPinLockView = (PinLockView) findViewById(R.id.pin_lock_view);
         mPinLockView.setPinLockListener(mPinLockListener);
 

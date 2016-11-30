@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    android:background="@android:color/white">
+    android:background="#E1F5FE">
+
     <ImageView
         android:id="@+id/image_in_item"
         android:layout_width="100dp"
         android:layout_height="100dp"/>
+
+
+
     <TextView
         android:id="@+id/textview_in_item"
         android:layout_width="wrap_content"
@@ -16,4 +20,21 @@
         android:textSize="16sp"
         android:layout_toRightOf="@+id/image_in_item"
         android:layout_marginLeft="10dp"/>
-</RelativeLayout>
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id = "@+id/progress_bar"
+        android:layout_width="320dp"
+        android:layout_height="45dp"
+        app:rcProgress="150"
+        app:rcMax="320"
+        app:rcRadius="15dp"
+        app:rcBackgroundPadding="3dp"
+        app:rcReverse="false"
+        app:rcProgressColor="#00B0FF"
+        app:rcBackgroundColor="#424242"
+        android:layout_below="@+id/textview_in_item"
+        android:layout_toRightOf="@+id/image_in_item"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"/>
+
+    </RelativeLayout>
