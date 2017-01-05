@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/primary"
     android:fitsSystemWindows="true"
-    tools:context="com.example.craigpauga.reality.PinLockActivity">
+    tools:context="com.example.craigpauga.reality.PinLock.PinLockActivity">
 
 
     <TextView

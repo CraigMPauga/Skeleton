@@ -1,16 +1,19 @@
-package com.example.craigpauga.reality;
+package com.example.craigpauga.reality.OpeningActivity;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.craigpauga.reality.GestureClasses.OnSwipeTouchListener;
+import com.example.craigpauga.reality.LoginActivity;
+import com.example.craigpauga.reality.R;
+import com.example.craigpauga.reality.SignUpActivity;
 
 public class gettingStarted extends AppCompatActivity {
 

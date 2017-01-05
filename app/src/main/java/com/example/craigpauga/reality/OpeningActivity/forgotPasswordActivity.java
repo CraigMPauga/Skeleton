@@ -1,25 +1,18 @@
-package com.example.craigpauga.reality;
+package com.example.craigpauga.reality.OpeningActivity;
 
-import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.example.craigpauga.reality.R;
 import com.example.craigpauga.reality.Utilities.SendMail;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 
 public class forgotPasswordActivity extends AppCompatActivity {

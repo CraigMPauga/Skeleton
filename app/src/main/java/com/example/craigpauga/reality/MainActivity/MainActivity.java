@@ -1,25 +1,17 @@
-package com.example.craigpauga.reality;
+package com.example.craigpauga.reality.MainActivity;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.annotation.BoolRes;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.animation.Animator;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.ViewFlipper;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -29,29 +21,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.app.Activity;
 import android.view.MenuItem;
 
-import com.example.craigpauga.reality.Adapters.ListViewAdapter;
-import com.example.craigpauga.reality.Adapters.ProspectsListViewAdapter;
-import com.example.craigpauga.reality.Adapters.WatchlistListViewAdapter;
-import com.example.craigpauga.reality.Utilities.Property;
-import com.example.craigpauga.reality.m_Helper.FirebaseHelper;
+import com.example.craigpauga.reality.LoginActivity;
+import com.example.craigpauga.reality.MainActivityAdapters.ListViewAdapter;
+import com.example.craigpauga.reality.MainActivityAdapters.ProspectsListViewAdapter;
+import com.example.craigpauga.reality.MainActivityAdapters.WatchlistListViewAdapter;
+import com.example.craigpauga.reality.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
-import static com.example.craigpauga.reality.LauncherActivity.propertyList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -62,7 +44,6 @@ public class MainActivity extends AppCompatActivity
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
     private DatabaseReference mDataProp;
-    FirebaseHelper helper;
     final static ArrayList<String> propertyNames = new ArrayList<>();
     public DatabaseReference mPropInfo;
     private String mUserId;

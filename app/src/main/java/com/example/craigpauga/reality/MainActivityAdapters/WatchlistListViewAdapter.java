@@ -1,4 +1,4 @@
-package com.example.craigpauga.reality.Adapters;
+package com.example.craigpauga.reality.MainActivityAdapters;
 
 /**
  * Created by CraigPauga on 10/8/16.
@@ -17,11 +17,11 @@ import com.squareup.picasso.Picasso;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ListViewAdapter extends BaseAdapter {
+public class WatchlistListViewAdapter extends BaseAdapter {
 
     LayoutInflater inflater;
 
-    public ListViewAdapter(LayoutInflater inflater){
+    public WatchlistListViewAdapter(LayoutInflater inflater){
         this.inflater = inflater;
     }
 

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="400dp"
     android:background="@color/colorPrimary"
-    tools:context="com.example.craigpauga.reality.gettingStartedFragment"
+    tools:context="com.example.craigpauga.reality.OpeningActivity.gettingStartedFragment"
     android:tag="FRAGMENT_TAG"
     android:id="@+id/gettingStartedFragment1">
 

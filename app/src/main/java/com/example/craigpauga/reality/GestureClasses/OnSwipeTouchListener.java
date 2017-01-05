@@ -1,4 +1,4 @@
-package com.example.craigpauga.reality;
+package com.example.craigpauga.reality.GestureClasses;
 
 import android.content.Context;
 import android.view.GestureDetector;

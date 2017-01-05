@@ -13,9 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
+import com.example.craigpauga.reality.MainActivity.MainActivity;
+import com.example.craigpauga.reality.OpeningActivity.forgotPasswordActivity;
+import com.example.craigpauga.reality.PinLock.SetPinLockActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

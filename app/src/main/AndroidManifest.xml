@@ -22,10 +22,10 @@
             android:name=".SignUpActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity
-            android:name=".MainActivity"
+            android:name=".MainActivity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".PinLockActivity"
+            android:name=".PinLock.PinLockActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".LauncherActivity"
@@ -37,13 +37,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SetPinLockActivity"
+            android:name=".PinLock.SetPinLockActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity
-            android:name=".forgotPasswordActivity"
+            android:name=".OpeningActivity.forgotPasswordActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity
-            android:name=".gettingStarted"
+            android:name=".OpeningActivity.gettingStarted"
             android:theme="@style/AppTheme.Dark" />
         <activity android:name=".propertyDetailsActivity" />
     </application>

@@ -12,9 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.craigpauga.reality.Utilities.Constants;
+import com.example.craigpauga.reality.PinLock.SetPinLockActivity;
 import com.example.craigpauga.reality.Utilities.User;
-import com.google.android.gms.actions.SearchIntents;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

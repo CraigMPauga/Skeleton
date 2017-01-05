@@ -1,4 +1,4 @@
-package com.example.craigpauga.reality.Adapters;
+package com.example.craigpauga.reality.MainActivityAdapters;
 
 /**
  * Created by CraigPauga on 10/8/16.
@@ -6,8 +6,6 @@ package com.example.craigpauga.reality.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,27 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
-import com.example.craigpauga.reality.LauncherActivity;
-import com.example.craigpauga.reality.LoginActivity;
-import com.example.craigpauga.reality.MainActivity;
-import com.example.craigpauga.reality.PinLockActivity;
 import com.example.craigpauga.reality.R;
-import com.example.craigpauga.reality.SetPinLockActivity;
-import com.example.craigpauga.reality.Utilities.Property;
-import com.example.craigpauga.reality.Utilities.propertyInfo;
 import com.example.craigpauga.reality.propertyDetailsActivity;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
