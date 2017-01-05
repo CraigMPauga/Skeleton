@@ -9,9 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import static com.example.craigpauga.reality.LauncherActivity.propertyList;
+
 
 public class ImageFragment extends Fragment {
     int fragVal;
+
+    //propertyList
 
     static ImageFragment init(int val) {
         ImageFragment truitonFrag = new ImageFragment();

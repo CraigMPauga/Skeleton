@@ -3,6 +3,8 @@ package com.example.craigpauga.reality.Utilities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
  * Created by CraigPauga on 10/8/16.
  */
@@ -48,6 +50,7 @@ public class Property implements Parcelable{
     private String propertyPic;
     private String amountFunded;
     private String amountTotal;
+    private ArrayList<String> propertyDetailPictures;
 
     // Constructor
     public Property(String propertyName, String propertyPic, String amountFunded, String amountTotal){

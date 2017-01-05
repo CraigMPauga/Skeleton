@@ -1,5 +1,6 @@
 package com.example.craigpauga.reality;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -11,11 +12,20 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
+import static com.example.craigpauga.reality.LauncherActivity.propertyList;
+
 public class propertyDetailsActivity extends FragmentActivity {
 
     static final int ITEMS = 10;
+    private ArrayList<String> propertyDetailsPictures;
     MyAdapter mAdapter;
     ViewPager mPager;
+
+   Intent mIntent = getIntent();
+    final int position = mIntent.getIntExtra("position",0);
+    static final int amountOfPropertyPics = propertyList.size();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +35,7 @@ public class propertyDetailsActivity extends FragmentActivity {
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
 
+        ////////First & Last Page Buttons//////////////////
         Button button = (Button) findViewById(R.id.first);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -37,16 +48,19 @@ public class propertyDetailsActivity extends FragmentActivity {
                 mPager.setCurrentItem(ITEMS - 1);
             }
         });
+        ///////////////////////////////////////////////////
     }
 
-    public static class MyAdapter extends FragmentStatePagerAdapter {
+    public class MyAdapter extends FragmentStatePagerAdapter {
         public MyAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
 
         @Override
         public int getCount() {
-            return ITEMS;
+            //propertyDetailsPictures = propertyList.get(position).si
+            return amountOfPropertyPics;
+            //return ITEMS;
         }
 
         @Override

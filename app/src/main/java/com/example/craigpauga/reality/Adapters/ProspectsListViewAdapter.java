@@ -86,6 +86,8 @@ public class ProspectsListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
+        final int position2 = position;
+        ////////////// Pull Property Information//////////////////////
         propertyName = propertyList.get(position).getPropertyName();
         propertyPic = propertyList.get(position).getPropertyPic();
         amountFunded = propertyList.get(position).getAmountFunded();
@@ -96,6 +98,8 @@ public class ProspectsListViewAdapter extends BaseAdapter {
         amountTotal_int = Integer.parseInt(propertyList.get(position).getAmountTotal());
         progress = amountFunded_int / amountTotal_int;
         float progress_adjustment = progress*(320);
+        //////////////////////////////////////////////////////////////
+
 
         View view = inflater.inflate(R.layout.list_view_item, parent, false);
         RoundCornerProgressBar progressBar = (RoundCornerProgressBar) view.findViewById(R.id.progress_bar);
@@ -112,7 +116,10 @@ public class ProspectsListViewAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Intent intent = new Intent(context, propertyDetailsActivity.class);
+                intent.putExtra("position",position2);
                 context.startActivity(intent);
             }
         });

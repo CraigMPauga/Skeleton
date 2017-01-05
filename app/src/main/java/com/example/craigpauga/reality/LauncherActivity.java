@@ -21,6 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LauncherActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
@@ -28,6 +30,7 @@ public class LauncherActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private DatabaseReference mDataProp;
     public final static ArrayList<Property> propertyList = new ArrayList<>();
+    public Map<String,Property> properties = new HashMap<>();
     String propertyName;
     String propertyPic;
     String amountFunded;
@@ -88,6 +91,7 @@ public class LauncherActivity extends AppCompatActivity {
 
                     }
                     propertyList.add(property);
+                    properties.put(property.getPropertyName().toString(),property);
                 }
             }
 
